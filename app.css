@@ -1,20 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=UnifrakturCook:wght@700&display=swap');
+
 :root {
-  --bg: #08090d;
-  --surface: #14151c;
-  --surface-2: #1b1c24;
-  --surface-3: #242630;
-  --line: rgba(255, 255, 255, 0.09);
-  --text: #f8f8fa;
-  --muted: #999aa7;
-  --muted-2: #686a77;
-  --pink: #fe2c55;
-  --pink-2: #ff5275;
-  --cyan: #25f4ee;
-  --gold: #f7c948;
-  --green: #45d49a;
+  --bg: #05050a;
+  --surface: #100d19;
+  --surface-2: #191225;
+  --surface-3: #241a32;
+  --line: rgba(195, 164, 255, 0.14);
+  --text: #f6f0ff;
+  --muted: #a79ab8;
+  --muted-2: #71657e;
+  --pink: #b34dff;
+  --pink-2: #d274ff;
+  --cyan: #7de7e1;
+  --gold: #e8bf6a;
+  --green: #64d6a0;
   --radius: 18px;
   --sidebar: 232px;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "UnifrakturCook", "Cinzel", Georgia, serif;
+  --font-body: "Cinzel", Georgia, serif;
+  font-family: var(--font-body);
 }
 
 * { box-sizing: border-box; }
@@ -23,7 +27,10 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   color: var(--text);
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(113, 43, 158, 0.18), transparent 28rem),
+    radial-gradient(circle at 90% 82%, rgba(39, 93, 138, 0.12), transparent 30rem),
+    var(--bg);
   -webkit-font-smoothing: antialiased;
 }
 body::before {
@@ -452,3 +459,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .reel-copy h2 { font-size: 44px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; } }
+
+.brand, .page-title h1, .feed-topline h1, .reel-copy h2, .reel-sticker, .profile-details h2, .empty-state h2 { font-family: var(--font-display); }
+.page-title h1, .feed-topline h1, .profile-details h2 { text-shadow: 0 0 24px rgba(179, 77, 255, 0.2); }
+.reel-copy h2 { letter-spacing: -0.025em; text-shadow: 0 4px 26px rgba(10, 3, 20, 0.65), 0 0 24px rgba(179, 77, 255, 0.2); }
+.reel-sticker, .brand { letter-spacing: .015em; }
+.eyebrow, .reel-kicker, .profile-tab, .feed-tab { letter-spacing: .16em; }
+.panel, .profile-hero, .create-stage, .aside-card { box-shadow: 0 14px 38px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(210, 183, 255, 0.045); }
+.primary-button, .create-button, .mobile-bottom-nav .create-mobile { background: linear-gradient(135deg, #8e35dc, #c255e8); }
+.primary-button:hover, .create-button:hover { background: linear-gradient(135deg, #a348ed, #d274ff); }
+
