@@ -18,6 +18,7 @@
     volume: '<path d="M4 10v4h4l5 4V6l-5 4Z"/><path d="M17 9a4 4 0 0 1 0 6M19.5 6.5a8 8 0 0 1 0 11"/>',
     "volume-off": '<path d="M4 10v4h4l5 4V6l-5 4ZM18 9l-5 6M13 9l5 6"/>',
     more: '<circle cx="5" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1" fill="currentColor" stroke="none"/>',
+    expand: '<path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"/><path d="M4 4l6 6M20 4l-6 6M20 20l-6-6M4 20l6-6"/>',
     check: '<path d="m5 12 4 4L19 6"/>',
     chevron: '<path d="m9 6 6 6-6 6"/>',
     "arrow-left": '<path d="M19 12H5m6 6-6-6 6-6"/>',
@@ -139,6 +140,20 @@
       button.innerHTML = iconMarkup(button.classList.contains('muted') ? 'volume-off' : 'volume');
       showToast(button.classList.contains('muted') ? 'Sonido silenciado' : 'Sonido activado');
     }));
+    $$('[data-fullscreen]').forEach((button) => button.addEventListener('click', async (event) => {
+      event.stopPropagation();
+      const target = button.closest('.reel') || $('.reel');
+      try {
+        if (document.fullscreenElement) await document.exitFullscreen();
+        else if (target?.requestFullscreen) await target.requestFullscreen();
+        else showToast('Pantalla completa no disponible en este navegador');
+      } catch {
+        showToast('No se pudo activar la pantalla completa');
+      }
+    }));
+    document.addEventListener('fullscreenchange', () => {
+      $$('[data-fullscreen]').forEach((button) => { button.innerHTML = iconMarkup('expand'); });
+    });
   }
 
   function initFeed() {

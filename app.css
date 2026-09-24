@@ -144,8 +144,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .reel-shade { position: absolute; right: 0; bottom: 0; left: 0; z-index: 2; height: 48%; background: linear-gradient(transparent, rgba(0,0,0,.8)); pointer-events: none; }
 .reel-top { position: absolute; top: 0; right: 0; left: 0; z-index: 4; display: flex; align-items: center; justify-content: space-between; padding: 17px 18px; color: #fff; background: linear-gradient(rgba(0,0,0,.33), transparent); }
 .reel-pill, .reel-sound { display: inline-flex; height: 31px; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid rgba(255,255,255,.21); border-radius: 10px; color: #fff; background: rgba(0,0,0,.2); backdrop-filter: blur(8px); font-size: 9px; font-weight: 800; }
-.reel-sound { width: 31px; justify-content: center; padding: 0; }
-.reel-pill .icon, .reel-sound .icon { width: 14px; height: 14px; }
+.reel-sound, .reel-fullscreen { width: 31px; justify-content: center; padding: 0; }
+.reel-pill .icon, .reel-sound .icon, .reel-fullscreen .icon { width: 14px; height: 14px; }
 .reel-bottom { position: absolute; right: 75px; bottom: 23px; left: 19px; z-index: 4; }
 .reel-creator { display: flex; align-items: center; gap: 9px; margin-bottom: 11px; }
 .reel-avatar { width: 37px; height: 37px; border: 2px solid #fff; border-radius: 13px; font-size: 10px; }
@@ -171,6 +171,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .reel-progress span { height: 3px; flex: 1; overflow: hidden; border-radius: 3px; background: rgba(255,255,255,.35); }
 .reel-progress span.active { background: #fff; }
 .reel-progress span.active::after { display: block; width: 45%; height: 100%; content: ""; background: var(--pink); animation: load 5s linear infinite; }
+.reel:fullscreen { width: 100vw; height: 100vh; border-radius: 0; }
+.reel:fullscreen .reel-video { object-fit: contain; }
 .reel-play { position: absolute; top: 50%; left: 50%; z-index: 3; display: grid; width: 62px; height: 62px; place-items: center; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; color: #fff; background: rgba(0,0,0,.22); opacity: 0; transform: translate(-50%,-50%) scale(.8); transition: 180ms ease; pointer-events: none; backdrop-filter: blur(7px); }
 .reel.paused .reel-play { opacity: 1; transform: translate(-50%,-50%) scale(1); }
 .reel-play .icon { width: 25px; height: 25px; margin-left: 3px; }
