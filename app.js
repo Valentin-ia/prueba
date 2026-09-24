@@ -145,15 +145,35 @@
     const feed = $('#reels');
     if (!feed) return;
     const reels = $$('.reel', feed);
+    const videos = $$('.reel-video', feed);
     const counter = $('[data-reel-counter]');
     let current = 0;
     let touchStartY = 0;
     let wheelLock = false;
+
+    videos.forEach((video) => {
+      const maxSeconds = Number(video.dataset.maxSeconds || 30);
+      video.addEventListener('loadedmetadata', () => {
+        if (Number.isFinite(video.duration) && video.duration > maxSeconds) video.currentTime = 0;
+      });
+      video.addEventListener('timeupdate', () => {
+        if (video.currentTime >= maxSeconds) video.currentTime = 0;
+      });
+    });
+
+    const syncVideos = (activeIndex) => {
+      videos.forEach((video, index) => {
+        if (index === activeIndex) video.play().catch(() => {});
+        else video.pause();
+      });
+    };
+
     const update = (index) => {
       current = Math.max(0, Math.min(index, reels.length - 1));
       reels.forEach((reel, i) => reel.classList.toggle('is-active', i === current));
       if (counter) counter.textContent = `${current + 1} / ${reels.length}`;
       reels.forEach((reel, i) => $$('.reel-progress span', reel).forEach((node, j) => node.classList.toggle('active', i === current && j === 0)));
+      syncVideos(current);
     };
     const goTo = (index) => {
       const next = Math.max(0, Math.min(index, reels.length - 1));
@@ -182,7 +202,14 @@
     feed.addEventListener('click', (event) => {
       if (event.target.closest('button, a')) return;
       const reel = event.currentTarget.querySelector('.reel.is-active') || event.currentTarget.querySelector('.reel');
-      if (reel) reel.classList.toggle('paused');
+      if (reel) {
+        const paused = reel.classList.toggle('paused');
+        const video = $('.reel-video', reel);
+        if (video) {
+          if (paused) video.pause();
+          else video.play().catch(() => {});
+        }
+      }
     });
     $$('[data-reel-prev]').forEach((button) => button.addEventListener('click', () => goTo(current - 1)));
     $$('[data-reel-next]').forEach((button) => button.addEventListener('click', () => goTo(current + 1)));
