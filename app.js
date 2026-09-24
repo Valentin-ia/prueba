@@ -153,7 +153,7 @@
       current = Math.max(0, Math.min(index, reels.length - 1));
       reels.forEach((reel, i) => reel.classList.toggle('is-active', i === current));
       if (counter) counter.textContent = `${current + 1} / ${reels.length}`;
-      $$('.reel-counter [data-progress]', feed.parentElement || document).forEach((node, i) => node.classList.toggle('active', i === current));
+      reels.forEach((reel, i) => $$('.reel-progress span', reel).forEach((node, j) => node.classList.toggle('active', i === current && j === 0)));
     };
     const goTo = (index) => {
       const next = Math.max(0, Math.min(index, reels.length - 1));

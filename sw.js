@@ -1,4 +1,4 @@
-const CACHE = "loop-shell-v1";
+const CACHE = "loop-shell-v2";
 const SHELL = [
   "./",
   "./index.html",
