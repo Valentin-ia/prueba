@@ -156,6 +156,60 @@
     });
   }
 
+  function initFullscreenGestures() {
+    const toggle = async (target) => {
+      try {
+        if (document.fullscreenElement) {
+          await document.exitFullscreen();
+        } else if (target?.requestFullscreen) {
+          await target.requestFullscreen();
+        } else if (target?.webkitRequestFullscreen) {
+          target.webkitRequestFullscreen();
+        } else {
+          showToast('Pantalla completa no disponible en este navegador');
+        }
+      } catch {
+        showToast('No se pudo activar la pantalla completa');
+      }
+    };
+
+    $$('.reel').forEach((reel) => {
+      const video = $('.reel-video', reel);
+      if (!video) return;
+      let lastTap = 0;
+      let lastActivation = 0;
+      const activate = () => {
+        const now = Date.now();
+        if (now - lastActivation < 500) return;
+        lastActivation = now;
+        toggle(reel);
+      };
+      video.addEventListener('dblclick', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        activate();
+      });
+      video.addEventListener('touchend', (event) => {
+        const now = Date.now();
+        if (now - lastTap < 340) {
+          event.preventDefault();
+          event.stopPropagation();
+          activate();
+        }
+        lastTap = now;
+      }, { passive: false });
+    });
+
+    $$('[data-fullscreen-volume]').forEach((button) => button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const video = $('.reel-video', button.closest('.reel'));
+      if (!video) return;
+      video.muted = !video.muted;
+      if (!video.muted && video.volume === 0) video.volume = 0.75;
+      button.innerHTML = iconMarkup(video.muted ? 'volume-off' : 'volume');
+    }));
+  }
+
   function initFeed() {
     const feed = $('#reels');
     if (!feed) return;
@@ -319,6 +373,7 @@
   renderChrome();
   hydrateIcons();
   initGenericActions();
+  initFullscreenGestures();
   initFeed();
   initComments();
   initChat();
