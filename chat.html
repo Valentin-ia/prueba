@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#08090d">
+  <link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="app.css"><title>Chat — Loop</title>
+</head>
+<body data-page="chat">
+  <div class="app-shell"><aside class="sidebar" data-sidebar></aside><div class="page">
+    <header class="mobile-header" data-mobile-header></header>
+    <main class="page-content">
+      <header class="page-header"><div class="page-heading"><a class="back-link" href="messages.html" aria-label="Volver a mensajes"><span data-icon="arrow-left"></span></a><div class="page-title"><h1 data-chat-title>Mar Sol</h1><p>Conversación privada</p></div></div><div class="header-action"><button class="icon-button" type="button" data-toast="Buscar en la conversación"><span data-icon="search"></span></button><button class="icon-button" type="button" data-toast="Opciones de conversación"><span data-icon="more"></span></button></div></header>
+      <section class="panel chat-layout">
+        <aside class="chat-list"><div class="panel-pad"><label class="search-box"><span data-icon="search"></span><input type="search" placeholder="Buscar chats..." aria-label="Buscar chats"></label></div><div class="conversation-list"><a class="conversation" href="chat.html?user=Mar%20Sol"><div class="avatar" style="background:linear-gradient(145deg,#ff8b6d,#733fe0)">MS</div><div class="conversation-copy"><strong>Mar Sol</strong><span>Ese reel me encantó...</span></div></a><a class="conversation" href="chat.html?user=Loop%20Creative"><div class="avatar" style="background:linear-gradient(145deg,#5b7cff,#fe2c55)">LC</div><div class="conversation-copy"><strong>Loop Creative</strong><span>Nuevo video publicado</span></div></a><a class="conversation" href="chat.html?user=Tech%20Kai"><div class="avatar" style="background:linear-gradient(145deg,#1cc8b5,#2762d9)">TK</div><div class="conversation-copy"><strong>Tech Kai</strong><span>Video guardado</span></div></a></div></aside>
+        <div class="chat-thread"><div class="chat-head"><div class="avatar" style="background:linear-gradient(145deg,#ff8b6d,#733fe0)" data-chat-avatar>MS</div><div><strong data-chat-name>Mar Sol</strong><span>En línea ahora</span></div><button class="icon-button" type="button" data-toast="Video llamada"><span data-icon="camera"></span></button><button class="icon-button" type="button" data-toast="Información del perfil"><span data-icon="more"></span></button></div><div class="chat-messages" data-chat-messages><span class="chat-day">Hoy</span><div class="bubble">¡Hola! Vi tu último video ✨<time>09:41</time></div><div class="bubble mine">Hola Mar, gracias 😄 ¿Qué te gustó?<time>09:43</time></div><div class="bubble">La edición y la música. Todo se siente muy natural.<time>09:44</time></div><div class="bubble mine">¡Gracias! Justo buscaba algo así para el próximo proyecto.<time>09:45</time></div><div class="bubble">Te paso el reel que te dije, mirá esto 🔥<time>09:47</time></div></div><form class="chat-compose" data-chat-form><button class="icon-button" type="button" data-toast="Adjuntos"><span data-icon="plus"></span></button><input type="text" placeholder="Escribí un mensaje..." aria-label="Mensaje"><button type="submit" aria-label="Enviar mensaje"><span data-icon="send"></span></button></form></div>
+      </section>
+    </main><nav class="mobile-bottom-nav" data-mobile-bottom></nav>
+  </div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite">Listo</div><script src="app.js" defer></script>
+  <script>
+    (() => { const name = new URLSearchParams(location.search).get('user') || 'Mar Sol'; document.querySelectorAll('[data-chat-title], [data-chat-name]').forEach((el) => el.textContent = name); const avatar = document.querySelector('[data-chat-avatar]'); if (avatar) avatar.textContent = name.split(' ').map((part) => part[0]).join('').slice(0,2).toUpperCase(); })();
+  </script>
+</body>
+</html>

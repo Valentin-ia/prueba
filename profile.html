@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#08090d">
+  <link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="app.css"><title>Perfil — Loop</title>
+</head>
+<body data-page="profile">
+  <div class="app-shell"><aside class="sidebar" data-sidebar></aside><div class="page">
+    <header class="mobile-header" data-mobile-header></header>
+    <main class="page-content">
+      <header class="page-header"><div class="page-heading"><div><p class="eyebrow">TU PERFIL</p><div class="page-title"><h1>Perfil</h1><p>Tu identidad dentro de Loop</p></div></div></div><div class="header-action"><button class="icon-button" type="button" data-toast="Configuración del perfil"><span data-icon="settings"></span></button><button class="icon-button" type="button" data-toast="Compartir perfil"><span data-icon="share"></span></button></div></header>
+      <section class="profile-hero" style="margin-top:20px"><div class="profile-cover"></div><div class="profile-main"><div class="avatar">JV</div><div class="profile-details"><h2>Juan Vazquez</h2><p>@juan.vazquez · Creando cosas desde Buenos Aires</p><div class="profile-stats"><div><strong>24</strong><span>Videos</span></div><div><strong>1.8K</strong><span>Seguidores</span></div><div><strong>342K</strong><span>Me gusta</span></div></div><div class="profile-actions"><button type="button" data-toast="Editor de perfil abierto">Editar perfil</button><button type="button" data-share>Compartir</button><button type="button" data-toast="Más opciones"><span data-icon="more"></span></button></div></div></div></section>
+      <div class="profile-tabs" data-tab-group><button class="profile-tab active" type="button" data-tab-button="videos">Videos</button><button class="profile-tab" type="button" data-tab-button="liked">Me gusta</button><button class="profile-tab" type="button" data-tab-button="private">Privados</button></div>
+      <div data-tab-panel="videos"><div class="profile-grid"><a class="profile-video" href="reel.html?reel=1"><span>12.4K · Mar Sol</span></a><a class="profile-video" href="reel.html?reel=2"><span>8.9K · Slow morning</span></a><a class="profile-video" href="reel.html?reel=3"><span>21.2K · Ideas</span></a><a class="profile-video" href="reel.html?reel=4"><span>6.7K · Comedy</span></a><a class="profile-video" href="reel.html?reel=2"><span>4.1K · Coffee</span></a><a class="profile-video" href="reel.html?reel=3"><span>9.3K · Creative</span></a></div></div>
+      <div data-tab-panel="liked" hidden><div class="empty-state"><div class="empty-icon"><span data-icon="heart"></span></div><h2>Tu colección de Me gusta</h2><p>Los videos que guardás aparecerán acá.</p><a class="secondary-button" href="explore.html">Explorar videos</a></div></div>
+      <div data-tab-panel="private" hidden><div class="empty-state"><div class="empty-icon"><span data-icon="lock"></span></div><h2>Sin videos privados</h2><p>Cuando quieras, podés guardar algo para vos.</p><a class="secondary-button" href="saved.html">Ver guardados</a></div></div>
+    </main><nav class="mobile-bottom-nav" data-mobile-bottom></nav>
+  </div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite">Listo</div><script src="app.js" defer></script>
+</body>
+</html>

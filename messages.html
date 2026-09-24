@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#08090d">
+  <link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="app.css"><title>Mensajes — Loop</title>
+</head>
+<body data-page="messages">
+  <div class="app-shell"><aside class="sidebar" data-sidebar></aside><div class="page">
+    <header class="mobile-header" data-mobile-header></header>
+    <main class="page-content">
+      <header class="page-header"><div class="page-heading"><div><p class="eyebrow">TU RED</p><div class="page-title"><h1>Mensajes</h1><p>Conversaciones y notificaciones</p></div></div></div><div class="header-action"><button class="icon-button" type="button" data-toast="Nueva conversación"><span data-icon="plus"></span></button><button class="icon-button" type="button" data-toast="Notificaciones"><span data-icon="bell"></span></button></div></header>
+      <div class="content-grid">
+        <section class="panel">
+          <div class="panel-pad"><label class="search-box"><span data-icon="search"></span><input data-search-input data-search-target="#conversationList" type="search" placeholder="Buscar mensajes..." aria-label="Buscar mensajes"></label></div>
+          <div class="message-tabs" data-tab-group><button class="message-tab active" type="button" data-tab-button="all">Todos</button><button class="message-tab" type="button" data-tab-button="unread">No leídos <span class="unread">3</span></button><button class="message-tab" type="button" data-tab-button="requests">Solicitudes</button></div>
+          <div class="conversation-list" id="conversationList">
+            <a class="conversation" href="chat.html?user=Mar%20Sol" data-filter-item><div class="avatar" style="background:linear-gradient(145deg,#ff8b6d,#733fe0)">MS</div><div class="conversation-copy"><strong>Mar Sol</strong><span>Ese reel me encantó, te lo paso ahora ✨</span></div><div class="conversation-meta"><time>2m</time><span class="unread">2</span></div></a>
+            <a class="conversation" href="chat.html?user=Loop%20Creative" data-filter-item><div class="avatar" style="background:linear-gradient(145deg,#5b7cff,#fe2c55)">LC</div><div class="conversation-copy"><strong>Loop Creative</strong><span>Nuevo video publicado para vos</span></div><div class="conversation-meta"><time>18m</time><span class="unread">1</span></div></a>
+            <a class="conversation" href="chat.html?user=Tech%20Kai" data-filter-item><div class="avatar" style="background:linear-gradient(145deg,#1cc8b5,#2762d9)">TK</div><div class="conversation-copy"><strong>Tech Kai</strong><span>Guardé el video que me mandaste</span></div><div class="conversation-meta"><time>1h</time></div></a>
+            <a class="conversation" href="chat.html?user=Ana%20Mov" data-filter-item><div class="avatar" style="background:linear-gradient(145deg,#f5ba4e,#ef5c83)">AM</div><div class="conversation-copy"><strong>Ana Mov</strong><span>Nos vemos en el próximo trend</span></div><div class="conversation-meta"><time>3h</time></div></a>
+            <a class="conversation" href="chat.html?user=Grupo%20viajes" data-filter-item><div class="avatar" style="background:linear-gradient(145deg,#4a68da,#34c9b2)">VG</div><div class="conversation-copy"><strong>Grupo viajes</strong><span>Mar Sol: ¿Salimos el sábado?</span></div><div class="conversation-meta"><time>Ayer</time></div></a>
+            <a class="conversation" href="chat.html?user=Sistema%20Loop" data-filter-item><div class="avatar" style="background:linear-gradient(145deg,#394052,#1a1d28)">L</div><div class="conversation-copy"><strong>Loop</strong><span>Tu cuenta está lista para explorar.</span></div><div class="conversation-meta"><time>Lun</time></div></a>
+          </div>
+        </section>
+        <aside>
+          <section class="panel panel-pad"><div class="aside-heading"><h2>Conversaciones recientes</h2><span class="eyebrow">3 nuevas</span></div><div class="message-preview-list"><a class="preview-item" href="chat.html?user=Mar%20Sol"><div class="avatar" style="background:linear-gradient(145deg,#ff8b6d,#733fe0)">MS</div><div><strong>Mar Sol</strong><span>Ese reel me encantó...</span></div><span class="unread">2</span></a><a class="preview-item" href="chat.html?user=Loop%20Creative"><div class="avatar" style="background:linear-gradient(145deg,#5b7cff,#fe2c55)">LC</div><div><strong>Loop Creative</strong><span>Nuevo video publicado</span></div><span class="unread">1</span></a><a class="preview-item" href="chat.html?user=Tech%20Kai"><div class="avatar" style="background:linear-gradient(145deg,#1cc8b5,#2762d9)">TK</div><div><strong>Tech Kai</strong><span>Video guardado</span></div></a></div></section>
+          <section class="panel panel-pad" style="margin-top:14px"><div class="aside-heading"><h2>Tu bandeja</h2><span data-icon="bell"></span></div><p class="muted-copy">No tenés mensajes importantes pendientes. Activá las notificaciones para no perderte nada.</p><button class="secondary-button" type="button" data-toast="Preferencias de notificaciones abiertas">Configurar notificaciones</button></section>
+        </aside>
+      </div>
+    </main><nav class="mobile-bottom-nav" data-mobile-bottom></nav>
+  </div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite">Listo</div><script src="app.js" defer></script>
+</body>
+</html>

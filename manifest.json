@@ -1,0 +1,18 @@
+{
+  "name": "Loop — Videos para ti",
+  "short_name": "Loop",
+  "description": "Una webapp móvil de videos cortos.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#08090d",
+  "theme_color": "#08090d",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

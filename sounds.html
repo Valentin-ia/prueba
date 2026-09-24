@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#08090d">
+  <link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="app.css"><title>Sounds — Loop</title>
+</head>
+<body data-page="sounds">
+  <div class="app-shell"><aside class="sidebar" data-sidebar></aside><div class="page">
+    <header class="mobile-header" data-mobile-header></header>
+    <main class="page-content">
+      <header class="page-header"><div class="page-heading"><div><p class="eyebrow">ESCUCHÁ</p><div class="page-title"><h1>Sounds</h1><p>El audio que mueve tus videos</p></div></div></div><div class="header-action"><button class="icon-button" type="button" data-toast="Filtros de sonido"><span data-icon="search"></span></button></div></header>
+      <label class="search-box" style="margin-top:19px"><span data-icon="search"></span><input data-search-input data-search-target="#soundList" type="search" placeholder="Buscar sonidos..." aria-label="Buscar sonidos"></label>
+      <div class="filter-row"><button class="filter-chip active" type="button">Para vos</button><button class="filter-chip" type="button">Tendencias</button><button class="filter-chip" type="button">Originales</button><button class="filter-chip" type="button">Voces</button></div>
+      <section class="panel" id="soundList" style="margin-top:18px"><div class="sound-list"><div class="sound-row" data-filter-item><div class="sound-cover"><span data-icon="music"></span></div><div class="sound-copy"><strong>Levels — Loop radio</strong><span>6.1K videos · Trending sound</span></div><button class="sound-use" type="button" data-toast="Sonido agregado a favoritos">Usar</button></div><div class="sound-row" data-filter-item><div class="sound-cover"><span data-icon="music"></span></div><div class="sound-copy"><strong>Slow mornings</strong><span>4.8K videos · Música suave</span></div><button class="sound-use" type="button" data-toast="Sonido agregado a favoritos">Usar</button></div><div class="sound-row" data-filter-item><div class="sound-cover"><span data-icon="music"></span></div><div class="sound-copy"><strong>Good mood club</strong><span>3.9K videos · Para tus edits</span></div><button class="sound-use" type="button" data-toast="Sonido agregado a favoritos">Usar</button></div><div class="sound-row" data-filter-item><div class="sound-cover"><span data-icon="music"></span></div><div class="sound-copy"><strong>Night drive</strong><span>2.6K videos · Late night</span></div><button class="sound-use" type="button" data-toast="Sonido agregado a favoritos">Usar</button></div><div class="sound-row" data-filter-item><div class="sound-cover"><span data-icon="music"></span></div><div class="sound-copy"><strong>Focus flow</strong><span>1.8K videos · Studying</span></div><button class="sound-use" type="button" data-toast="Sonido agregado a favoritos">Usar</button></div></div></section>
+    </main><nav class="mobile-bottom-nav" data-mobile-bottom></nav>
+  </div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite">Listo</div><script src="app.js" defer></script>
+</body>
+</html>

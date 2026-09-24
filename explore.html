@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#08090d">
+  <link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="app.css"><title>Explorar — Loop</title>
+</head>
+<body data-page="explore">
+  <div class="app-shell"><aside class="sidebar" data-sidebar></aside><div class="page">
+    <header class="mobile-header" data-mobile-header></header>
+    <main class="page-content">
+      <header class="page-header"><div class="page-heading"><div><p class="eyebrow">DESCUBRIR</p><div class="page-title"><h1>Explorar</h1><p>Encontrá tu próxima obsession</p></div></div></div><div class="header-action"><button class="icon-button" type="button" data-toast="Filtros de exploración"><span data-icon="settings"></span></button></div></header>
+      <label class="search-box" style="margin-top:19px"><span data-icon="search"></span><input data-search-input data-search-target="#exploreContent" type="search" placeholder="Buscar temas, creators y sonidos..." aria-label="Buscar en Explorar"></label>
+      <div class="filter-row" id="exploreFilters"><button class="filter-chip active" type="button">Para vos</button><button class="filter-chip" type="button">Tendencias</button><button class="filter-chip" type="button">Música</button><button class="filter-chip" type="button">Viajes</button><button class="filter-chip" type="button">Tecnología</button><button class="filter-chip" type="button">Humor</button><button class="filter-chip" type="button">Diseñadores</button></div>
+      <div id="exploreContent"><div class="explore-grid"><a class="explore-card" href="reel.html?reel=2" data-filter-item><div class="explore-card-content"><span>Música · 2.4M</span><strong>Lo que suena ahora</strong></div></a><a class="explore-card" href="reel.html?reel=1" data-filter-item><div class="explore-card-content"><span>Viajes · 840K</span><strong>Escapadas de 24 horas</strong></div></a><a class="explore-card" href="reel.html?reel=4" data-filter-item><div class="explore-card-content"><span>Humor · 1.1M</span><strong>Reels que te representan</strong></div></a><a class="explore-card" href="reel.html?reel=3" data-filter-item><div class="explore-card-content"><span>Ideas · 620K</span><strong>Diseñá tu semana</strong></div></a><a class="explore-card" href="reel.html?reel=2" data-filter-item><div class="explore-card-content"><span>Tech · 390K</span><strong>Apps que vas a amar</strong></div></a><a class="explore-card" href="reel.html?reel=1" data-filter-item><div class="explore-card-content"><span>Bienestar · 780K</span><strong>Tu ritual de mañana</strong></div></a></div></div>
+      <section class="panel panel-pad" style="margin-top:22px"><div class="aside-heading"><h2>Sonidos en tendencia</h2><a href="sounds.html">Ver todos</a></div><div class="message-preview-list"><a class="preview-item" href="sounds.html"><div class="sound-cover"><span data-icon="music"></span></div><div><strong>Levels — Loop radio</strong><span>6.1K videos · En tendencia</span></div><span data-icon="chevron"></span></a><a class="preview-item" href="sounds.html"><div class="sound-cover" style="background:linear-gradient(145deg,#1cc8b5,#2756d9)"><span data-icon="music"></span></div><div><strong>Slow mornings</strong><span>4.8K videos · Música</span></div><span data-icon="chevron"></span></a></div></section>
+    </main><nav class="mobile-bottom-nav" data-mobile-bottom></nav>
+  </div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite">Listo</div><script src="app.js" defer></script>
+</body>
+</html>
