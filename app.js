@@ -11,6 +11,7 @@
     heart: '<path d="M20.8 8.8c0 5.4-8.8 10-8.8 10s-8.8-4.6-8.8-10A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.6Z"/>',
     comment: '<path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.6 8.6 0 0 1-3.5-.8L4 20l1.2-3.6A7.2 7.2 0 0 1 4 11.5 7.5 7.5 0 0 1 12 4a7.5 7.5 0 0 1 8 7.5Z"/>',
     bookmark: '<path d="M6 4h12v17l-6-4-6 4Z"/>',
+    folder: '<path d="M3 6h7l2 2h9v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/>',
     share: '<path d="m20 4-7 16-3.5-7L4 9.5Z"/><path d="M9.5 13 20 4"/>',
     music: '<path d="M9 18V5l10-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/>',
     play: '<path d="m9 6 9 6-9 6Z"/>',
@@ -106,6 +107,201 @@
     toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
   }
 
+  function ensureVolumePopover(button, video) {
+    const reel = button.closest('.reel');
+    if (!reel) return null;
+    let popover = $('.volume-popover', reel);
+    if (!popover) {
+      popover = document.createElement('div');
+      popover.className = 'volume-popover';
+      popover.innerHTML = '<span data-icon="volume"></span><input type="range" min="0" max="1" step="0.01" aria-label="Volumen"><output>0%</output>';
+      reel.appendChild(popover);
+      hydrateIcons(popover);
+    }
+    const range = $('input', popover);
+    const output = $('output', popover);
+    const update = () => {
+      const percent = Math.round(video.volume * 100);
+      if (output) output.textContent = `${percent}%`;
+      $$('[data-sound-toggle]', reel).forEach((control) => {
+        control.innerHTML = iconMarkup(video.muted || video.volume === 0 ? 'volume-off' : 'volume');
+      });
+    };
+    if (range && range.dataset.bound !== 'true') {
+      range.dataset.bound = 'true';
+      range.addEventListener('input', () => {
+        video.volume = Number(range.value);
+        video.muted = video.volume === 0;
+        video.dataset.lastVolume = String(video.volume);
+        update();
+      });
+    }
+    if (!video.dataset.lastVolume) video.dataset.lastVolume = String(video.volume || 0.75);
+    if (range) range.value = String(video.muted ? (video.dataset.lastVolume || 0.75) : video.volume);
+    update();
+    return popover;
+  }
+
+  function getSavedFolders() {
+    try { return JSON.parse(localStorage.getItem('loop-folders') || '["Favoritos","Para ver después","Inspiración"]'); }
+    catch { return ['Favoritos', 'Para ver después', 'Inspiración']; }
+  }
+
+  function renderSavedFolders() {
+    const list = $('#savedFolderList');
+    if (!list) return;
+    list.replaceChildren();
+    getSavedFolders().forEach((folder) => {
+      const item = document.createElement('div');
+      item.className = 'saved-folder-item';
+      item.innerHTML = '<span data-icon="folder"></span><div><strong></strong><span> Carpeta personal</span></div>';
+      $('strong', item).textContent = folder;
+      hydrateIcons(item);
+      list.appendChild(item);
+    });
+  }
+
+  function getSavedVideos() {
+    try { return JSON.parse(localStorage.getItem('loop-saved-videos') || '{}'); }
+    catch { return {}; }
+  }
+
+  function getSaveSheet() {
+    let sheet = $('#saveSheet');
+    if (sheet) return sheet;
+    const backdrop = document.createElement('div');
+    backdrop.className = 'sheet-backdrop';
+    backdrop.id = 'saveBackdrop';
+    sheet = document.createElement('section');
+    sheet.className = 'bottom-sheet save-sheet';
+    sheet.id = 'saveSheet';
+    sheet.setAttribute('aria-hidden', 'true');
+    sheet.innerHTML = '<div class="sheet-handle"></div><div class="sheet-header"><strong>Guardar en una carpeta</strong><button class="sheet-close" type="button" data-save-close aria-label="Cerrar"><span data-icon="close"></span></button></div><p class="muted-copy" id="saveVideoTitle"></p><div class="save-folder-list" id="saveFolderList"></div><form class="create-folder-form" id="createFolderForm"><input id="newFolderName" type="text" maxlength="32" placeholder="Crear una carpeta nueva..." aria-label="Nombre de la carpeta"><button type="submit" aria-label="Crear carpeta"><span data-icon="plus"></span></button></form>';
+    document.body.append(backdrop, sheet);
+    hydrateIcons(sheet);
+    const close = () => { backdrop.classList.remove('open'); sheet.classList.remove('open'); sheet.setAttribute('aria-hidden', 'true'); };
+    backdrop.addEventListener('click', close);
+    $('[data-save-close]', sheet).addEventListener('click', close);
+    $('#createFolderForm', sheet).addEventListener('submit', (event) => {
+      event.preventDefault();
+      const input = $('#newFolderName', sheet);
+      const name = input.value.trim();
+      if (!name) return;
+      const folders = getSavedFolders();
+      if (!folders.some((folder) => folder.toLowerCase() === name.toLowerCase())) folders.push(name);
+      localStorage.setItem('loop-folders', JSON.stringify(folders));
+      input.value = '';
+      renderSaveFolders();
+      renderSavedFolders();
+      showToast(`Carpeta “${name}” creada`);
+    });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') close(); });
+    return sheet;
+  }
+
+  function renderSaveFolders() {
+    const list = $('#saveFolderList');
+    if (!list) return;
+    list.replaceChildren();
+    getSavedFolders().forEach((folder) => {
+      const row = document.createElement('button');
+      row.type = 'button';
+      row.className = 'save-folder-row';
+      row.dataset.folder = folder;
+      row.innerHTML = '<span class="save-folder-icon"><span data-icon="folder"></span></span><span class="save-folder-name"></span><span class="save-folder-check" data-icon="check"></span>';
+      $('.save-folder-name', row).textContent = folder;
+      hydrateIcons(row);
+      row.addEventListener('click', () => {
+        const reel = $('.reel.is-active') || $('.reel');
+        const title = reel?.querySelector('.reel-copy h2')?.textContent.trim() || 'Video de Loop';
+        const saved = getSavedVideos();
+        saved[title] = folder;
+        localStorage.setItem('loop-saved-videos', JSON.stringify(saved));
+        showToast(`Guardado en “${folder}”`);
+        $('#saveBackdrop')?.classList.remove('open');
+        $('#saveSheet')?.classList.remove('open');
+        $('#saveSheet')?.setAttribute('aria-hidden', 'true');
+      });
+      list.appendChild(row);
+    });
+  }
+
+  function openSaveSheet(button) {
+    const sheet = getSaveSheet();
+    const video = $('.reel-video', button.closest('.reel'));
+    const title = video ? 'Este video de Loop' : 'Video seleccionado';
+    const titleElement = $('#saveVideoTitle', sheet);
+    if (titleElement) titleElement.textContent = title;
+    renderSaveFolders();
+    sheet.classList.add('open');
+    sheet.setAttribute('aria-hidden', 'false');
+    $('#saveBackdrop')?.classList.add('open');
+  }
+
+  function getProfile() {
+    try { return JSON.parse(localStorage.getItem('loop-profile') || 'null') || { name: 'Juan Vazquez', username: 'juan.vazquez', bio: 'Creando cosas desde Buenos Aires', location: 'Buenos Aires', initials: 'JV', color: '#5968ff' }; }
+    catch { return { name: 'Juan Vazquez', username: 'juan.vazquez', bio: 'Creando cosas desde Buenos Aires', location: 'Buenos Aires', initials: 'JV', color: '#5968ff' }; }
+  }
+
+  function applyProfile() {
+    const profile = getProfile();
+    $$('[data-profile-name]').forEach((element) => { element.textContent = profile.name; });
+    $$('[data-profile-bio]').forEach((element) => { element.textContent = `@${profile.username} · ${profile.bio} · ${profile.location}`; });
+    $$('[data-profile-avatar]').forEach((element) => { element.textContent = profile.initials; element.style.background = `linear-gradient(145deg, ${profile.color}, #b34bdd)`; });
+    $$('.user-mini strong').forEach((element) => { element.textContent = profile.username; });
+    $$('.user-mini .avatar').forEach((element) => { element.textContent = profile.initials; element.style.background = `linear-gradient(145deg, ${profile.color}, #b34bdd)`; });
+  }
+
+  function openProfileEditor() {
+    let sheet = $('#profileSheet');
+    if (!sheet) {
+      const backdrop = document.createElement('div');
+      backdrop.className = 'sheet-backdrop';
+      backdrop.id = 'profileBackdrop';
+      sheet = document.createElement('section');
+      sheet.className = 'bottom-sheet profile-editor-sheet';
+      sheet.id = 'profileSheet';
+      sheet.setAttribute('aria-hidden', 'true');
+      sheet.innerHTML = '<div class="sheet-handle"></div><div class="sheet-header"><strong>Editar perfil</strong><button class="sheet-close" type="button" data-profile-close aria-label="Cerrar"><span data-icon="close"></span></button></div><form class="profile-editor-form" id="profileEditorForm"><div class="profile-editor-grid"><label>Nombre<input id="profileNameInput" type="text" maxlength="32" required></label><label>Usuario<input id="profileUsernameInput" type="text" maxlength="24" required></label></div><label>Bio<textarea id="profileBioInput" rows="3" maxlength="120"></textarea></label><div class="profile-editor-grid"><label>Ubicación<input id="profileLocationInput" type="text" maxlength="32"></label><label>Iniciales<input id="profileInitialsInput" type="text" maxlength="3"></label></div><label>Color de perfil<span class="color-input-wrap"><input id="profileColorInput" type="color"><span>Elegí tu color</span></span></label><button class="primary-button" type="submit"><span data-icon="check"></span>Guardar cambios</button></form>';
+      document.body.append(backdrop, sheet);
+      hydrateIcons(sheet);
+      const close = () => { backdrop.classList.remove('open'); sheet.classList.remove('open'); sheet.setAttribute('aria-hidden', 'true'); };
+      backdrop.addEventListener('click', close);
+      $('[data-profile-close]', sheet).addEventListener('click', close);
+      $('#profileEditorForm', sheet).addEventListener('submit', (event) => {
+        event.preventDefault();
+        const profile = {
+          name: $('#profileNameInput', sheet).value.trim(),
+          username: $('#profileUsernameInput', sheet).value.trim().replace(/^@/, ''),
+          bio: $('#profileBioInput', sheet).value.trim(),
+          location: $('#profileLocationInput', sheet).value.trim(),
+          initials: $('#profileInitialsInput', sheet).value.trim().toUpperCase() || 'JV',
+          color: $('#profileColorInput', sheet).value
+        };
+        localStorage.setItem('loop-profile', JSON.stringify(profile));
+        applyProfile();
+        close();
+        showToast('Perfil actualizado');
+      });
+    }
+    const profile = getProfile();
+    $('#profileNameInput', sheet).value = profile.name;
+    $('#profileUsernameInput', sheet).value = profile.username;
+    $('#profileBioInput', sheet).value = profile.bio;
+    $('#profileLocationInput', sheet).value = profile.location;
+    $('#profileInitialsInput', sheet).value = profile.initials;
+    $('#profileColorInput', sheet).value = profile.color;
+    sheet.classList.add('open');
+    sheet.setAttribute('aria-hidden', 'false');
+    $('#profileBackdrop')?.classList.add('open');
+  }
+
+  function initProfile() {
+    applyProfile();
+    renderSavedFolders();
+    $$('[data-edit-profile]').forEach((button) => button.addEventListener('click', openProfileEditor));
+  }
+
   function initGenericActions() {
     $$('[data-toast]').forEach((button) => button.addEventListener('click', () => showToast(button.dataset.toast)));
     $$('[data-like]').forEach((button) => button.addEventListener('click', (event) => {
@@ -115,10 +311,7 @@
     }));
     $$('[data-save]').forEach((button) => button.addEventListener('click', (event) => {
       event.stopPropagation();
-      button.classList.toggle('saved');
-      const label = $('span:last-child', button);
-      if (label) label.textContent = button.classList.contains('saved') ? 'Guardado' : 'Guardar';
-      showToast(button.classList.contains('saved') ? 'Video guardado' : 'Video quitado de guardados');
+      openSaveSheet(button);
     }));
     $$('[data-follow]').forEach((button) => button.addEventListener('click', (event) => {
       event.stopPropagation();
@@ -135,11 +328,19 @@
         showToast('Enlace listo para compartir');
       }
     }));
-    $$('[data-sound-toggle]').forEach((button) => button.addEventListener('click', () => {
-      button.classList.toggle('muted');
-      button.innerHTML = iconMarkup(button.classList.contains('muted') ? 'volume-off' : 'volume');
-      showToast(button.classList.contains('muted') ? 'Sonido silenciado' : 'Sonido activado');
+    $$('[data-sound-toggle]').forEach((button) => button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const video = $('.reel-video', button.closest('.reel'));
+      if (!video) return;
+      const popover = ensureVolumePopover(button, video);
+      if (!popover) return;
+      const isOpen = popover.classList.toggle('open');
+      if (isOpen) showToast('Ajustá el volumen desde la barra');
     }));
+    document.addEventListener('click', (event) => {
+      if (event.target.closest('.volume-popover') || event.target.closest('[data-sound-toggle]')) return;
+      $$('.volume-popover.open').forEach((popover) => popover.classList.remove('open'));
+    });
     $$('[data-fullscreen]').forEach((button) => button.addEventListener('click', async (event) => {
       event.stopPropagation();
       const target = button.closest('.reel') || $('.reel');
@@ -200,14 +401,6 @@
       }, { passive: false });
     });
 
-    $$('[data-fullscreen-volume]').forEach((button) => button.addEventListener('click', (event) => {
-      event.stopPropagation();
-      const video = $('.reel-video', button.closest('.reel'));
-      if (!video) return;
-      video.muted = !video.muted;
-      if (!video.muted && video.volume === 0) video.volume = 0.75;
-      button.innerHTML = iconMarkup(video.muted ? 'volume-off' : 'volume');
-    }));
   }
 
   function initFeed() {
@@ -372,6 +565,7 @@
 
   renderChrome();
   hydrateIcons();
+  initProfile();
   initGenericActions();
   initFullscreenGestures();
   initFeed();
