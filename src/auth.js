@@ -35,7 +35,7 @@ export async function signUp({ email, password, displayName, avatar }) {
     }
   });
   if (error) throw error;
-  if (data.user && avatar) {
+  if (data.session && avatar) {
     const { uploadUserAvatar } = await import('./storage.js');
     await uploadUserAvatar(avatar, data.user.id);
   }
