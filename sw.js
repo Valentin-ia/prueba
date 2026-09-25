@@ -15,7 +15,8 @@ const SHELL = [
   "./trends.html",
   "./sounds.html",
   "./settings.html",
-  "./reel.html"
+  "./reel.html",
+  "./supabase-auth.html"
 ];
 
 self.addEventListener("install", (event) => {
